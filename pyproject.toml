@@ -1,0 +1,26 @@
+[tool.isort]
+# https://pycqa.github.io/isort/docs/configuration/multi_line_output_modes.html
+multi_line_output = 2
+balanced_wrapping = true
+line_length = 120
+
+[tool.flake8]
+max-line-length = 120
+max-doc-length = 120
+requirements-file = "requirements/requirements.txt"
+
+[tool.pytest]
+faulthandler_timeout = 30
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+
+[tool.mypy]
+python_executable = "~/.pyenv/shims/python"
+exclude = "cloud-sdk-with-pub-sub-client"
+
+[[tool.mypy.overrides]]
+# TODO: Create stubs for the types we need. More information on how to do it:
+# https://mypy.readthedocs.io/en/stable/stubs.html#stub-files
+module = "functions_framework.*"
+ignore_missing_imports = true

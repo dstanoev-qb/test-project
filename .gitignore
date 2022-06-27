@@ -1,0 +1,25 @@
+# Python internals
+__pycache__/
+
+# pre-commit exutable
+pre-commit-*.pyz
+
+# pyenv and make artefacts
+.python-version
+.venv-ready
+
+# Mypy daemon
+.dmypy.json
+
+# pytest
+.coverage
+
+# idea
+.idea
+
+# temporary files
+*~
+
+# emacs files
+.emacs.desktop*
+\#*

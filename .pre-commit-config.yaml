@@ -1,0 +1,81 @@
+repos:
+    # flake8 wrapper using pyproject.toml config. Uses latest flake8.
+    - repo: https://github.com/csachs/pyproject-flake8
+      rev: v0.0.1a2.post1
+      hooks:
+        - id: pyproject-flake8
+          name: flake8
+          additional_dependencies:
+            - pep8-naming
+            - flake8-bugbear
+            - flake8-quotes
+            - flake8-builtins
+            - flake8-requirements
+            - flake8-return
+            - flake8-comprehensions
+            - flake8-eradicate
+            - flake8-fixme
+            - flake8-debugger
+            - flake8-print
+            - flake8-pytest-style
+
+    # Automatically fixes missing or unnecessary commas
+    - repo: https://github.com/asottile/add-trailing-comma
+      rev: v2.2.1
+      hooks:
+        - id: add-trailing-comma
+
+    # Automatically fixes imports' order
+    - repo: https://github.com/pycqa/isort
+      rev: 5.10.1
+      hooks:
+        - id: isort
+          name: isort (python)
+
+    # Security checks
+    - repo: https://github.com/PyCQA/bandit
+      rev: 1.7.1
+      hooks:
+        - id: bandit
+          entry: bandit -c "pyproject.toml"
+          additional_dependencies: ["toml"]
+
+    # Various pre-commit-hooks
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.1.0
+      hooks:
+        - id: end-of-file-fixer
+        - id: trailing-whitespace
+          args: [--markdown-linebreak-ext=md]
+
+    # mypy
+    # The official package doesn't support pre-commit. The pre-commit mirror doesn't support:
+    # - mypy to scan the whole repo and not just the staging area
+    # - mypy to scan the imports as it runs in an isolated environment without access to the requirements
+    - repo: local
+      hooks:
+        - id: mypy
+          name: mypy
+          entry: mypy .
+          language: python
+          language_version: python3
+          types: ["python"]
+          require_serial: true
+          pass_filenames: false
+          additional_dependencies: ["mypy"]
+
+    # pytest
+    # pytest needs access to the project dependencies. We want to run all tests nevertheless the changed files too.
+    - repo: local
+      hooks:
+        - id: pytest
+          name: pytest
+          # -x (exit on first error) -rsxX (show extra summary for skipped, failed, passed) -q (quiet)
+          # -n auto (distribute on each core) --dist loadscope (Distribute grouped by test class)
+          entry: python -m pytest -x -rsxX -q -n auto --dist loadscope --cov=. tests/
+          language: system
+          types: ["python"]
+          stages: ["commit"]
+          require_serial: true
+          pass_filenames: false
+          verbose: true

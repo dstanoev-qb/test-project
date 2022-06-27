@@ -1,0 +1,22 @@
+# Pre-installed packages from Google for Python 3.9
+# https://cloud.google.com/functions/docs/writing/specifying-dependencies-python#python39
+click==7.1.2
+cloudevents==1.2.0
+deprecation==2.1.0
+Flask==1.1.2
+# We override this, as the whole google docs are for version 3.0 and there is nothing in the changelog between 2.2.1 and
+# 3.0 (the current last version), which bothers us
+# functions-framework==2.2.1
+gunicorn==20.0.4
+itsdangerous==1.1.0
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+pathtools==0.1.2
+watchdog==1.0.2
+Werkzeug==1.0.1
+
+# Our own dependencies
+
+# Overrides google's v. 2.2.1 with the latest available version.
+functions-framework
+structlog
